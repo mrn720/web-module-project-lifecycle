@@ -17,6 +17,16 @@ class App extends React.Component {
       html_url: '',
       followers: '',
       following: '',
+      },
+      followerData: {
+      name: '',
+      login: '',
+      avatar_url: '',
+      location: '',
+      bio: '',
+      html_url: '',
+      followers: '',
+      following: '',
       }
     }
     console.log('Github data rendered')
@@ -29,7 +39,12 @@ class App extends React.Component {
             ...this.state,
             githubData: res.data
         }))
-        .catch(err => console.log(err));
+        .catch(err => console.log(err))
+    axios.get('https://api.github.com/users/mrn720/followers')
+        .then(res => res.data.map((value) => this.setState({
+          ...this.state,
+          followerData: value
+        })))
 }
 
   render() {
@@ -37,6 +52,8 @@ class App extends React.Component {
       <div className="App">
         <h1>{this.state.githubData.name}'s Github Profile:</h1>
         <UserCard userData={this.state.githubData}/>
+        <h1>{this.state.githubData.name}'s Follower Profiles:</h1>
+        <UserCard userData={this.state.followerData}/>
       </div>
     );
   }
